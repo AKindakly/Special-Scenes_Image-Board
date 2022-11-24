@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/public/css/style.css" />
+        <title>Image Board</title>
+    </head>
+    <body>
+        <div id="heading">
+            <h1>{{ heading }}</h1>
+        </div>
+
+        <hr />
+
+        <div id="main">
+            <div class="uploadFormBigCont">
+                <div class="uploadFormSmlCont">
+                    <h2>Please upload Your Image:</h2>
+                    <form
+                        action="/images"
+                        method="post"
+                        enctype="multipart/form-data"
+                        @submit.prevent="upload"
+                    >
+                        <div>
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" maxlength="35" required />
+
+                            <label for="username" style="margin-left: 20px" >Username</label>
+                            <input type="text" name="username" id="username" maxlength="35" required />
+                        </div>
+                        <div>
+                            <label for="description">Description</label>
+                            <input
+                                style="width: 386px"
+                                type="text"
+                                name="description"
+                                id="description"
+                            />
+                        </div>
+
+                        <label for="file" style="margin-left: 90px">Your Image</label>
+                        <input
+                            type="file"
+                            name="file"
+                            id="file"
+                            accept="image/*"
+                        />
+                        <div>
+                            <input class="uploadFormBtn" type="submit" value="Upload" />
+                        </div>
+                    </form>
+
+                    <p class="uploadFormStatus">{{ message }}</p>
+                </div>
+            </div>
+
+            <big-image v-if="imageId" v-bind={"imgId":imageId} @close="closeImage"></big-image>
+
+            <h2 class="imgPara">{{ imgPara }}</h2>
+
+            <div class="imagesBigCont">
+                <div class="imageSmlCont" v-for="image in images">
+                    <img
+                        class="image"
+                        @click="showImage"
+                        v-bind:src="image.url"
+                        v-bind:id="image.id"
+                        alt="uploaded image"
+                    />
+                    <p class="imageTitle">{{ image.title }}</p>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="/js/app.js"
+            type="module"
+            crossorigin="use-credentials"
+        ></script>
+    </body>
+</html>
